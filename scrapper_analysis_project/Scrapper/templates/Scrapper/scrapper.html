@@ -1,0 +1,21 @@
+{base extends.html}
+{%block title%} {% endblock}
+
+{% block content %}
+<form action="{{ url_for('product_name.product_name') }}" method="POST">
+    <label for="product_name">Product Name</label><br>
+    <input type="text" id="product_name" name="product_name"><br>
+    
+    <label for="date_from">Month</label><br>
+    <input type="text" id="date_from" name="month_from"><br>
+    
+    <label for="date_to">Year</label><br>
+    <input type="text" id="date_to" name="year_from"><br>
+    
+    <button type="submit">Search</button>
+</form>
+
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,62 @@
+<!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{{url_for('analyze_data.analyze_data1')}}">Analyze Data Option 1</a>
+          <a class="dropdown-item" href="{{url_for('analyze_data.analyze_data2')}}">Analyze Data Option 2</a>
+          <a class="dropdown-item" href="{{url_for('analyze_data.analyze_data3')}}">Analyze Data Option 3</a>
+      </div> -->
+
+
+<!-- {% extends "base.html" %}
+
+{% block title %}Scraped Data{% endblock %}
+
+{% block content %}
+    {% if not df.empty %}
+        <div class="mt-5">
+            <h2>Scraped Data</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Contract Number</th>
+                        <th>Organization Type</th>
+                        <th>Ministry</th>
+                        <th>Department</th>
+                        <th>Organization Name</th>
+                        <th>Office Zone</th>
+                        <th>Buyer Designation</th>
+                        <th>Buying Mode</th>
+                        <th>Contract Date</th>
+                        <th>Total</th>
+                        <th>Products</th>
+                        <th>Brands</th>
+                        <th>Models</th>
+                        <th>Quantities</th>
+                        <th>Prices</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index, row in df.iterrows() %}
+                    <tr>
+                        <td>{{ row['contract_number'] }}</td>
+                        <td>{{ row['organization_type'] }}</td>
+                        <td>{{ row['Ministry'] }}</td>
+                        <td>{{ row['Department'] }}</td>
+                        <td>{{ row['Organization_name'] }}</td>
+                        <td>{{ row['office_zone'] }}</td>
+                        <td>{{ row['Buyer_Designation'] }}</td>
+                        <td>{{ row['buying_mode'] }}</td>
+                        <td>{{ row['contract_date'] }}</td>
+                        <td>{{ row['Total'] }}</td>
+                        <td>{{ row['products'] }}</td>
+                        <td>{{ row['brands'] }}</td>
+                        <td>{{ row['models'] }}</td>
+                        <td>{{ row['Quantities'] }}</td>
+                        <td>{{ row['Prices'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No data available.</p>
+    {% endif %}
+{% endblock %} -->
