@@ -40,6 +40,10 @@ product_name_blueprint=Blueprint('product_name',__name__,template_folder='/templ
 analyze_data_blueprint=Blueprint('analyze_data',__name__,template_folder='templates/Scrapper')
 analyze_data1_blueprint=Blueprint('analyze_data1',__name__,template_folder='templates/Scrapper')
 analyze_data2_blueprint=Blueprint('analyze_data2',__name__,template_folder='templates/Scrapper')
+analyze_data3_blueprint=Blueprint('analyze_data3',__name__,template_folder='templates/Scrapper')
+analyze_data4_blueprint=Blueprint('analyze_data4',__name__,template_folder='templates/Scrapper')
+
+
 import os
 
 from selenium import webdriver
@@ -435,7 +439,7 @@ from PIL import Image
 #         return f'Error accessing or processing Google Sheets file: {e}'
 
 # Define authentication credentials and file ID for Google Sheets
-credentials_file = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\gemportal-bacb7ef8a2f8.json'
+credentials_file = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\gemportal-cafdf2c8cc08.json'
 
 file_id = '1nlO1cw0j0JCjRo2yg08B8jqh7RIv9scGCVUYiXePN6c'
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
@@ -470,7 +474,7 @@ async def analyze_data():
 
 
     
-@analyze_data1_blueprint.route('/analyze_data', methods=['POST', 'GET'])
+@analyze_data1_blueprint.route('/analyze_data1', methods=['POST', 'GET'])
 def analyze_data1():
     plt.ioff()
     credentials = service_account.Credentials.from_service_account_file(credentials_file, scopes=SCOPES)
@@ -491,35 +495,22 @@ def analyze_data1():
     # file_path = os.path.join('C:\\Users\\Wishes Lawrence', file_name)
     df = pd.DataFrame(values[1:], columns=values[0])
   # Assuming df is your DataFrame and it has a column named 'Organization_name'
-    org_name = df['organization_type'].value_counts().head(10)  # Select the top 10
+    org_name = df['organization_type'].value_counts().head(10)
     x = org_name.index
     y = org_name.values
 
-    # Create the bar plot
-    fig = plt.figure(figsize=(10, 6))
-    sns.barplot(x=y, y=x)
-
-    # Set plot labels and title for better readability
-    plt.xlabel('Count')
-    plt.ylabel('Organization Name')
-    plt.title('Top 10 Organization Names by Count')
-
-    # Rotate x labels if there are too many organizations
-    plt.xticks(rotation=45)
+    # Create the bar plot using Plotly Express
+    fig = px.bar(x=x, y=y, labels={'x': 'Organization Name', 'y': 'Count'}, title='Top 10 Organization Names by Count')
 
     # Save the plot to a BytesIO object
     img = io.BytesIO()
-    plt.savefig(img, format='png')
+    fig.write_image(img, format='png')
     img.seek(0)
 
-    # Optionally, clear the plot from memory
-    plt.clf()
-    plt.close(fig)  # Close the figure to free memory
-
-    # Serve the image as a response
+        # Serve the image as a response
     return send_file(img, mimetype='image/png')
 
-@analyze_data2_blueprint.route('/analyze_data', methods=['POST', 'GET'])
+@analyze_data2_blueprint.route('/analyze_data2', methods=['POST', 'GET'])
 def analyze_data2():
     plt.ioff()
     credentials = service_account.Credentials.from_service_account_file(credentials_file, scopes=SCOPES)
@@ -571,3 +562,89 @@ def analyze_data2():
     
     # plotting data on chart 
     # plt.pie(data, labels=keys, colors=palette_color, labeldistance=3,autopct='%.0f%%') 
+
+@analyze_data3_blueprint.route('/analyze_data3', methods=['POST', 'GET'])
+def analyze_data3():
+    # Assuming you have fetched data and stored it in the DataFrame df
+    plt.ioff()
+    credentials = service_account.Credentials.from_service_account_file(credentials_file, scopes=SCOPES)
+
+        # Build the Sheets API service
+    sheets_service = build('sheets', 'v4', credentials=credentials)
+
+    # Specify the range of data you want to retrieve from the spreadsheet
+    # range_name =  'Sheet1!A1:O615'  # Adjust based on your actual data range
+
+    # Retrieve data from Google Sheets
+    sheet = sheets_service.spreadsheets()
+    result = sheets_service.spreadsheets().values().get(spreadsheetId=file_id, range='Sheet1').execute()
+    values = result.get('values', [])
+    
+        # Matplotlib plot generation
+    # file_name = 'Amit_Rapid_Test_ Kits.xlsx'  # Adjusted file name with space
+    # file_path = os.path.join('C:\\Users\\Wishes Lawrence', file_name)
+    df = pd.DataFrame(values[1:], columns=values[0])
+  
+   
+
+    fig = px.scatter(df, x=df['Total'], y=df['Quantities'],color='Total',hover_data=['Quantities'])
+
+    # Convert the plot to a BytesIO object
+    img2 = io.BytesIO()
+    fig.write_image(img2, format='png', engine='kaleido')  # Specify engine as 'kaleido'
+    img2.seek(0)
+
+    # Optionally, clear the figure from memory
+    fig = None
+
+    # Serve the image as a response
+    return send_file(img2, mimetype='image/png')
+
+
+@analyze_data4_blueprint.route('/analyze_data4', methods=['POST', 'GET'])
+def analyze_data4():
+    plt.ioff()
+    credentials = service_account.Credentials.from_service_account_file(credentials_file, scopes=SCOPES)
+
+        # Build the Sheets API service
+    sheets_service = build('sheets', 'v4', credentials=credentials)
+
+    # Specify the range of data you want to retrieve from the spreadsheet
+    # range_name =  'Sheet1!A1:O615'  # Adjust based on your actual data range
+
+    # Retrieve data from Google Sheets
+    sheet = sheets_service.spreadsheets()
+    result = sheets_service.spreadsheets().values().get(spreadsheetId=file_id, range='Sheet1').execute()
+    values = result.get('values', [])
+    
+        # Matplotlib plot generation
+    # file_name = 'Amit_Rapid_Test_ Kits.xlsx'  # Adjusted file name with space
+    # file_path = os.path.join('C:\\Users\\Wishes Lawrence', file_name)
+    df = pd.DataFrame(values[1:], columns=values[0])
+  # Assuming df is your DataFrame and it has a column named 'Organization_name'
+    # Calculate the value counts
+    brand_counts = df['brands'].value_counts().head(10)
+
+# Create a DataFrame for plotting
+    plot_data = pd.DataFrame({
+    'Organization Name': brand_counts.index,
+    'Count': brand_counts.values
+})
+
+# Create the bar plot using Plotly Express with a color sequence
+    fig = px.bar(plot_data, 
+             x='Count', 
+             y='Organization Name', 
+             orientation='h', 
+             labels={'Count': 'Count', 'Organization Name': 'Organization Name'},
+             title='Top 10 Organization Names by Count',
+             color='Organization Name',  # Use organization names as the color category
+             color_discrete_sequence=px.colors.qualitative.Pastel  # Use a predefined color sequence
+            )
+# Save the plot to a BytesIO object
+    img3 = io.BytesIO()
+    fig.write_image(img3, format='png')
+    img3.seek(0)
+
+        # Serve the image as a response
+    return send_file(img3, mimetype='image/png')
