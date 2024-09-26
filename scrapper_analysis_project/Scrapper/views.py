@@ -2,6 +2,7 @@ from flask import Blueprint,render_template,redirect,url_for,flash,request
 from flask import Flask, send_file, render_template, make_response
 from flask import get_flashed_messages
 from sqlalchemy import func
+from flask import Blueprint, jsonify
 # from my_project.purchase_order.forms import InforForm
 from sqlalchemy import insert 
 from scrapper_analysis_project import db
@@ -12,6 +13,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 import plotly.express as px
+from io import StringIO
 
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -26,6 +28,7 @@ import io
 # Authenticate and create a PyDrive client
 
 from oauth2client.service_account import ServiceAccountCredentials
+from twilio.rest import Client
 
 from  scrapper_analysis_project.models import Product
 from datetime import datetime, timedelta
@@ -33,6 +36,13 @@ import pytesseract
 from PIL import Image
 import io
 import base64
+# Twilio configuration
+TWILIO_ACCOUNT_SID = 'AC7ed175308d84751dcc6de9724e1c735f'
+TWILIO_AUTH_TOKEN = 'your_auth_token_here'
+TWILIO_WHATSAPP_NUMBER = 'whatsapp:+14155238886'  # Twilio sandbox or your WhatsApp-enabled number
+CUSTOMER_NUMBER = 'whatsapp:+919820026487'  # Replace with actual customer number
+STATUS_CALLBACK_URL = 'https://2c18-202-134-154-46.ngrok-free.app/status_callback'
+
 
 
 
@@ -42,10 +52,12 @@ analyze_data1_blueprint=Blueprint('analyze_data1',__name__,template_folder='temp
 analyze_data2_blueprint=Blueprint('analyze_data2',__name__,template_folder='templates/Scrapper')
 analyze_data3_blueprint=Blueprint('analyze_data3',__name__,template_folder='templates/Scrapper')
 analyze_data4_blueprint=Blueprint('analyze_data4',__name__,template_folder='templates/Scrapper')
+display_data_blueprint=Blueprint('display_data',__name__,template_folder='templates/Scrapper')
+display_data1_blueprint=Blueprint('display_data1',__name__,template_folder='templates/Scrapper')
+ML_algo_blueprint=Blueprint('ML_algo',__name__,template_folder='templates/Scrapper')
 
 
 import os
-
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
@@ -648,3 +660,275 @@ def analyze_data4():
 
         # Serve the image as a response
     return send_file(img3, mimetype='image/png')
+
+
+@display_data_blueprint.route('/display_data', methods=['POST', 'GET'])
+def display_data():
+    # Path to your service account key file
+    credentials_file1 = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\tenderdetails-607934767a43.json'
+    SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
+    
+    # Create a credential object
+    creds = service_account.Credentials.from_service_account_file(
+        credentials_file1, scopes=SCOPES
+    )
+    
+    # Build the Google Drive API service
+    drive_service = build('drive', 'v3', credentials=creds)
+
+    # File ID of the CSV file in Google Drive
+    FILE_ID = '1IYnJeRYJ6KeSJDOokTmFlrjIX3jFhbu2'
+    
+    try:
+        # Request to download the file
+        request = drive_service.files().get_media(fileId=FILE_ID)
+        file_content = request.execute()
+        
+        # Read CSV data
+        csv_data = file_content.decode('utf-8')
+        df2 = pd.read_csv(StringIO(csv_data))
+        
+        # Get top 5 tenders based on 'TenderAmount'
+        if not df2.empty:
+            top_5_tenders = df2.nlargest(5, 'Tender Amount')
+            
+            # Format the message
+            def format_message(tenders):
+                message = "Top 5 Tenders:\n"
+                for index, row in tenders.iterrows():
+                    message += f"Tender Amount: {row.get('Tender Amount', 'N/A')}\n"
+                    message += f"DueDate: {row.get('DueDate', 'N/A')}\n"
+                    message += f"EMD: {row.get('EMD', 'N/A')}\n"
+                    
+                return message
+            
+            message_body = format_message(top_5_tenders)
+            
+            # Twilio configuration (replace these with actual values)
+            TWILIO_ACCOUNT_SID = 'AC7ed175308d84751dcc6de9724e1c735f'
+            TWILIO_AUTH_TOKEN = '56de2c62f699f734b5d1ee7db9da824b'
+            TWILIO_WHATSAPP_NUMBER = '+12296191226'
+            CUSTOMER_NUMBER = '+919987516136'
+            
+            
+            # Initialize Twilio client
+            client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+            
+            # Send WhatsApp message
+            def send_whatsapp_message(to, body):
+                try:
+                    message = client.messages.create(
+                        body=body,
+                        from_=TWILIO_WHATSAPP_NUMBER,
+                        to=to
+                    )
+                    return {"status": "success", "sid": message.sid}
+                except Exception as e:
+                    return {"status": "error", "message": str(e)}
+            
+            # Send the message
+            response = send_whatsapp_message(CUSTOMER_NUMBER, message_body)
+            
+            # Print response for debugging
+            print(response)
+            
+            return jsonify({"status": "success", "message": "Message sent successfully", "response": response})
+        else:
+            return jsonify({"status": "error", "message": "No tenders found"})
+    
+    except Exception as e:
+        print(f'An error occurred: {e}')
+        return jsonify({"status": "error", "message": str(e)})
+
+@display_data1_blueprint.route('/display_data1', methods=['POST', 'GET'])
+def display_data1():
+    # Path to your service account key file
+    credentials_file1 = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\tenderdetails-607934767a43.json'
+    SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
+    
+    # Create a credential object
+    creds = service_account.Credentials.from_service_account_file(
+        credentials_file1, scopes=SCOPES
+    )
+    
+    # Build the Google Drive API service
+    drive_service = build('drive', 'v3', credentials=creds)
+
+    # File ID of the CSV file in Google Drive
+    FILE_ID = '1IYnJeRYJ6KeSJDOokTmFlrjIX3jFhbu2'
+    
+    try:
+        # Request to download the file
+        request = drive_service.files().get_media(fileId=FILE_ID)
+        file_content = request.execute()
+        
+        # Read CSV data
+        csv_data = file_content.decode('utf-8')
+        df2 = pd.read_csv(StringIO(csv_data))
+        
+    except HttpError as err:
+        print(f'An error occurred: {err}')
+        df2 = pd.DataFrame(columns=['Content'])
+    except Exception as e:
+        print(f'An unexpected error occurred: {e}')
+        df2 = pd.DataFrame(columns=['Content'])
+
+    # Render the template with the DataFrame
+    return render_template('tender.html', df2=df2.to_html())
+
+@ML_algo_blueprint.route('/ML_algo', methods=['POST', 'GET'])
+def ML_algo():
+    credentials = service_account.Credentials.from_service_account_file(credentials_file, scopes=SCOPES)
+
+        # Build the Sheets API service
+    sheets_service = build('sheets', 'v4', credentials=credentials)
+
+    # Specify the range of data you want to retrieve from the spreadsheet
+    # range_name =  'Sheet1!A1:O615'  # Adjust based on your actual data range
+
+    # Retrieve data from Google Sheets
+    sheet = sheets_service.spreadsheets()
+    result = sheets_service.spreadsheets().values().get(spreadsheetId=file_id, range='Sheet1').execute()
+    values = result.get('values', [])
+    
+        # Matplotlib plot generation
+    # file_name = 'Amit_Rapid_Test_ Kits.xlsx'  # Adjusted file name with space
+    # file_path = os.path.join('C:\\Users\\Wishes Lawrence', file_name)
+    import re
+    df = pd.DataFrame(values[1:], columns=values[0])
+    df1=df.copy()
+    pattern=r"\bNon-Vaccum\b|\b'Vaccum'\b'"
+    pattern = r'\bNon-Vacuum\b|\bVacuum\b'
+
+# Apply lambda function to extract the matched pattern
+    df1['variant'] = df1['products'].apply(lambda x: re.search(pattern, x).group(0) if re.search(pattern, x) else None)
+    pattern1 = r'(?<=Tubes\s)(\w+\s\w+)|(?<=Tubes\s)(\s\d\.\d+\s\S\s\w+\s\w+)'
+
+    df1['products_variant'] = df1['products'].apply(lambda x: re.search(pattern1, x).group() if re.search(pattern1, x) else '')
+    df1['products_variant']
+
+    # Updated regex pattern
+    pattern1 = r'(?<=Tubes\s)(\w+\s\w+)|Tubes\s(\d\.\d+\s\S+\s\w+\s\w+)'
+   
+# Apply the regex pattern to extract the desired part
+    df1['products_variant'] = df1['products'].apply(
+    lambda x: re.search(pattern1, x).group(1) if re.search(pattern1, x) and re.search(pattern1, x).group(1) else 
+              (re.search(pattern1, x).group(2) if re.search(pattern1, x) and re.search(pattern1, x).group(2) else '')
+  
+   
+    pattern2 = r'(\d)\s+milliliter'       # Captures a single digit before "milliliter"
+    pattern3 = r'(\d\.\d)\s+milliliter'   # Captures a decimal number before "milliliter"
+
+# Apply the patterns to the 'products' column and create a new 'size' column
+    df1['size'] = df1['products'].apply(
+        lambda x: (match := re.search(pattern3, x)) and match.group(1) or (
+        (match := re.search(pattern2, x)) and match.group(1) or '')))
+    
+    df1['MinUnitPrice']=df1['Total']/df1['Quantities']
+    df3=df1.copy()
+    df3.drop(['Ministry','contract_number','office_zone','Buyer_Designation','Prices','Date','Year','contract_date','Organization_name','Department','Date1','products','Month','Week'],axis=1,inplace=True)
+    # Remove Outliers
+    num_cols=df3.select_dtypes(include=['int64','float64'])
+    
+    cat_cols=df3.select_dtypes(include=['object'])
+    
+    
+    # Removing Outliers
+def remove_outliers(df,columns):
+    for col in columns:
+# Calculate Q1 (25th percentile) and Q3 (75th percentile)
+        Q1 = df[col].quantile(0.25)
+        Q3 = df[col].quantile(0.75)
+        IQR = Q3 - Q1
+
+        # Define the outlier thresholds
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+
+        # Filter out outliers
+        df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+    return df
+
+df_no_outliers=remove_outliers(num_cols,num_cols.columns) # type: ignore
+    
+
+#Log Transformation
+def log_transform(df,columns):
+    df_transformed=df_no_outliers.copy()
+    for col in columns:
+        df_transformed[col]=np.log(df_transformed[col])
+    return df_transformed
+
+log_transform=log_transform(df_no_outliers,df_no_outliers.columns)
+log_transform
+
+# Scaling the data
+from sklearn.preprocessing import MinMaxScaler
+import sys
+def scaling_data(df):    
+    df_scaled=log_transform.copy()
+    df_scaled = np.where(np.isinf(df_scaled),  # Replace infinity with a specific value
+                       -sys.maxsize, df_scaled)  # or another appropriate value
+    scaler=MinMaxScaler()
+    df_scaled= scaler.fit_transform(df_scaled)
+    return df_scaled
+
+df_num=scaling_data(log_transform)
+df_num=pd.DataFrame(df_no_outliers,columns=df_no_outliers.columns)
+
+indices_to_keep = df_num.index
+cat_cols=df3.select_dtypes(include=['object']).columns
+cat_cols_cleaned = df3.loc[indices_to_keep, cat_cols]
+
+df_cat_cols=pd.get_dummies(cat_cols_cleaned)
+df_concat=pd.concat([df_num,df_cat_cols],axis=1)
+y=df_concat['MinUnitPrice']
+
+X=df_concat.drop('MinUnitPrice',axis=1)
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+
+
+
+# Split Data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+import statsmodels.api as sm
+import pandas as pd
+
+# Assuming your data is already split into X_train and y_train
+
+# 1. Add a constant to the model for the intercept
+X_train_const = sm.add_constant(X_train)
+
+# 2. Fit the OLS model
+ols_model = sm.OLS(y_train, X_train_const).fit()
+
+# 3. Print the model summary
+print(ols_model.summary())
+
+import xgboost as xgb
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Create the XGBoost model
+xgb_model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100, learning_rate=0.1)
+
+# Fit the model on PCA-transformed training data
+xgb_model.fit(X_train, y_train)
+
+# Make predictions on the PCA-transformed test data
+y_pred = xgb_model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print("Mean Squared Error:", mse)
+print("R2 Score:", r2)
+

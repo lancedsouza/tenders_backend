@@ -5,6 +5,9 @@ from flask_migrate import Migrate
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from flask_cors import CORS
+from flask_mail import Mail, Message
+from twilio.rest import Client
+from datetime import datetime
 
 
 app=Flask(__name__)
@@ -25,6 +28,12 @@ from scrapper_analysis_project.Scrapper.views import analyze_data1_blueprint
 from scrapper_analysis_project.Scrapper.views import analyze_data2_blueprint
 from scrapper_analysis_project.Scrapper.views import analyze_data3_blueprint
 from scrapper_analysis_project.Scrapper.views import analyze_data4_blueprint
+from scrapper_analysis_project.Scrapper.views import display_data_blueprint
+from scrapper_analysis_project.Scrapper.views import display_data1_blueprint
+
+
+
+
 
 # Register your blueprints with the Flask app
 app.register_blueprint(product_name_blueprint, url_prefix='/product_name')
@@ -33,3 +42,5 @@ app.register_blueprint(analyze_data1_blueprint, url_prefix='/analyze_data1')
 app.register_blueprint(analyze_data2_blueprint, url_prefix='/analyze_data2')
 app.register_blueprint(analyze_data3_blueprint, url_prefix='/analyze_data3')
 app.register_blueprint(analyze_data4_blueprint, url_prefix='/analyze_data4')
+app.register_blueprint(display_data_blueprint, url_prefix='/display_data')
+app.register_blueprint(display_data1_blueprint, url_prefix='/display_data1')

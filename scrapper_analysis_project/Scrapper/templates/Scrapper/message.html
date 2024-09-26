@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Top 5 Tenders for Today</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .tender {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .tender h2 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .tender p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Top 5 Tenders for Today</h1>
+    {% for tender in tenders %}
+    <div class="tender">
+        <h2>Tender Date: {{ tender.date }}</h2>
+        <p><strong>Quantity:</strong> {{ tender.quantity }}</p>
+        <p><strong>Mode:</strong> {{ tender.mode }}</p>
+        <p><strong>L1:</strong> {{ tender.L1 }}</p>
+    </div>
+    {% endfor %}
+</body>
+</html>
