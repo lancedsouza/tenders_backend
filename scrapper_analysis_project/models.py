@@ -1,17 +1,6 @@
-from sqlalchemy import Column, Integer, ForeignKey, String, Float, Date
+from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from scrapper_analysis_project import db
-from werkzeug.security  import generate_password_hash,check_password_hash
-
-
-
-
-
-
-
-    
-
-
 
 class Product(db.Model):
     __tablename__ = 'product'
@@ -31,3 +20,12 @@ class Product(db.Model):
     Models = db.Column(db.String(255), nullable=False)
     Quantities = db.Column(db.Integer, nullable=False)
     Prices = db.Column(db.String(255), nullable=False)
+
+
+class Product_name(db.Model):
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    product_name = db.Column(db.String(50), nullable=False)
+    category = db.Column(db.String(200), nullable=True)
+    gem_id=db.Column(db.Integer,nullable=False)
+
+

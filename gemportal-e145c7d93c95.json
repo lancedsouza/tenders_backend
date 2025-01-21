@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "gemportal",
+  "private_key_id": "e145c7d93c954ddcd17b39b3309960928d2ca3fd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQChjE4kQ07f4qyT\n2drbBiubx3cuv+ELiXd5dYxS06TF0Wvk8aNhAQwST8L+W5Te1aIl+5oFPpguCtQM\n0HSl9W1rJSVVXXn3S0iKTVB7ONEjlpuwerfiGuMFr7JGPJSG6v94TPCbSFqwIpZr\n8y+n1zsE/xVqwtiQrrVvnt6MRu3434Gp+HiY9pNniOX2mLH6sezKj9R2lSrXwyz7\nheezn7t3hDCC1/0nlVmkaJcpaY12bWqPv4hzX1JWkkwTFe46whW+FU0jXRkc7RwH\npdlrLyiXT3VWCOjX34DGmveK+Ko+4WWEYmFJcONeI0p42G747lesF3NMf++2XO1Q\nIUh9o7MLAgMBAAECggEAPR7j+7VZlLxi1gehVafGfQhhL9daEm7evJ38SuQXXd7H\npxXDXjKyugTifjDxKMQENsG0OtK9agIfy39c+uNaFCU4NE2LFUSu++CXmB9dhUz4\nt7MeelX42dBpL0jBWzBzGrVlfSLJaQWVCt+2Apccld3a4Qs6O7dWHxapFcLKS5PO\nKsXEsZI7OiPQyyWRrIzsl5Dbz0EHD6HfhefEtkPY80JrF1HCC0M2xeo6OExs18ue\n5Y6LX75phg4sOjDIxAr35hYLfghUuK31ZUUlKIlhJlOG/lDVCcz/fJCH6uSvKZE9\nncyF+XFvfyNAk757XiDAH3xUhi424yCHd/n2o40QHQKBgQC5tf6/Nw9fjefPlo6D\nA32DuDSOkClvmY6PILseeATN8U+ffiRdygJhgtGmLw9l8dEQAfCcCBLvD/RwXJ4o\nazhr0yvO5ZiEPVmmwbDOlSNNMKMCUKoLElU/hlIBCNnnCE+EQeMDfsQmw0juZlcQ\n01Y2DLS5B52J7GmJohBNPFt5dwKBgQDesRwdgWdgp4eGVXwEf/tprlLK9I/VMR1j\n4UXbhbKxR6qTl4RWgsPpdsgmxKCbYxfBOUBqcQ0jLpWdzbfp8BABkll4qk+KeKpH\njzQgH45Yi/wARtBdUY4FNWchk9igwgNOwV4+IdG5hwcGtF8cLXh5VjOE2amWK7//\nmDnEXBe4DQKBgQCxlXv1w6P6vsrVseWzGIpUg7gWP3qwEgnFigoE18XYXRHDtS73\nVK20KxFpNYUm+fbttL0tp3bbjck0DQzcH7ODQBqbLOgMRFJPaNY2pVxter3V/+aq\n0awdI8eU367nAwZutUZs2DKf0owSFGDbYQwGgV3rtYGLGzvMdeHayYW7fwKBgQCU\nOAWijdKkvlyxyIv24sgPmvt4Ijbpivso03OPnPlGjZC3E439lqOW7HxjcVQEmHvj\nG5wIPJ6l4AetNJNInYPJyALNEW5Hl/CeGG51QwuXW/Sqqndc5T9FsDmoW6M/vGI/\nNOzpJdFVTs4aZEs5kfoxqHI55jW9wfjUwhkQ3MrcsQKBgDkP52fgVjZKLX/+aumR\nSS5RKo/wqc7rXMuePnvesknLgpf8Zi0UjcGJuiipt/GzjZS4M+voS8L/e5dJImtJ\nPEQk35ih93fuHcbc5h8L2NKp/C8astKL/bWys7D1b+kWHfWWxGzS8bnU4XJGGzPN\nU0FzFDgGHCjZh6ootnMlAGI0\n-----END PRIVATE KEY-----\n",
+  "client_email": "drive-admin@gemportal.iam.gserviceaccount.com",
+  "client_id": "109930559798918107053",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/drive-admin%40gemportal.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

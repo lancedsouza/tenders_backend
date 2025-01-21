@@ -10,6 +10,7 @@ from twilio.rest import Client
 from datetime import datetime
 
 
+
 app=Flask(__name__)
 cors = CORS(app)  # Enable CORS for all origins
 basedir=os.path.abspath(os.path.dirname(__file__))
@@ -30,8 +31,14 @@ from scrapper_analysis_project.Scrapper.views import analyze_data3_blueprint
 from scrapper_analysis_project.Scrapper.views import analyze_data4_blueprint
 from scrapper_analysis_project.Scrapper.views import display_data_blueprint
 from scrapper_analysis_project.Scrapper.views import display_data1_blueprint
-
-
+from scrapper_analysis_project.Scrapper.views import display_data1_blueprint
+from scrapper_analysis_project.Scrapper.views import add_data_blueprint
+from scrapper_analysis_project.Scrapper.views import product_added_blueprint
+from scrapper_analysis_project.Scrapper.views import add_product_blueprint
+from scrapper_analysis_project.Scrapper.views import Blueprint_make_prediction
+from scrapper_analysis_project.Scrapper.views import predict_price_blueprint
+from scrapper_analysis_project.Scrapper.views import input_tender_details_blueprint
+from scrapper_analysis_project.Scrapper.views import generate_chart_data_blueprint
 
 
 
@@ -44,3 +51,10 @@ app.register_blueprint(analyze_data3_blueprint, url_prefix='/analyze_data3')
 app.register_blueprint(analyze_data4_blueprint, url_prefix='/analyze_data4')
 app.register_blueprint(display_data_blueprint, url_prefix='/display_data')
 app.register_blueprint(display_data1_blueprint, url_prefix='/display_data1')
+app.register_blueprint(add_data_blueprint, url_prefix='/add_data')
+app.register_blueprint(product_added_blueprint, url_prefix='/product_added')
+app.register_blueprint(add_product_blueprint, url_prefix='/add_product')
+app.register_blueprint(Blueprint_make_prediction, url_prefix='/make_prediction')
+app.register_blueprint(predict_price_blueprint,url_prefix='/predict_price')
+app.register_blueprint(input_tender_details_blueprint,url_prefix='/input_tender_details')
+app.register_blueprint(generate_chart_data_blueprint,url_prefix='/generate_chart')

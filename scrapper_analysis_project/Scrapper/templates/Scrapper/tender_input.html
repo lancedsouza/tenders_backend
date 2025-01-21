@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Form</title>
+</head>
+<body>
+    <h1>Make a Prediction</h1>
+    <form action="{{url_for('predict_price.predict_price')}}" method="POST">
+        <label for="organization_type">Organization Type:</label>
+        <input type="text" id="organization_type" name="organization_type" required><br>
+
+        <label for="buying_mode">Buying Mode:</label>
+        <input type="text" id="buying_mode" name="buying_mode" required><br>
+
+        <label for="Total">Total:</label>
+        <input type="number" id="Total" name="Total" required><br>
+
+        <label for="Quantities">Quantities:</label>
+        <input type="number" id="Quantities" name="Quantities" required><br>
+
+        <label for="variant">Variant:</label>
+        <input type="text" id="variant" name="variant" required><br>
+
+        <label for="products_variant">Products Variant:</label>
+        <input type="text" id="products_variant" name="products_variant" required><br>
+
+        <label for="size">Size:</label>
+        <input type="text" id="size" name="size" required><br>
+
+        <input type="submit" value="Predict">
+    </form>
+</body>
+</html>

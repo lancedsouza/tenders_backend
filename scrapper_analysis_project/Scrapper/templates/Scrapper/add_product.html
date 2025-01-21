@@ -1,0 +1,24 @@
+<!-- templates/add_product.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+</head> 
+<body>
+    <h1>Add a New Product</h1>
+    <form method="POST" action="{{ url_for('add_data.add_data') }}">
+        <label for="name">Product Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="category">Category</label><br>
+        <input type="category" name="category"></textarea><br><br>
+        
+        <label for="gem_id">gem_id</label><br>
+        <input type="number"  id="gem_id" name="gem_id" required><br><br>
+        
+        <input type="submit" value="Add Product">
+    </form>
+</body>
+</html>

@@ -1,86 +1,42 @@
-from flask import Blueprint,render_template,redirect,url_for,flash,request
+import os
+import joblib
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask import Flask, send_file, render_template, make_response
 from flask import get_flashed_messages
 from sqlalchemy import func
 from flask import Blueprint, jsonify
-# from my_project.purchase_order.forms import InforForm
 from sqlalchemy import insert 
 from scrapper_analysis_project import db
 import matplotlib.pyplot as plt
 import pandas as pd 
 import numpy as np
-import matplotlib.pyplot as plt
 import seaborn as sns
-import os
 import plotly.express as px
 from io import StringIO
-
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
-
-
-from flask import render_template, request
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
-import pandas as pd
-import io
-
-# Authenticate and create a PyDrive client
-
-from oauth2client.service_account import ServiceAccountCredentials
-from twilio.rest import Client
-
-from  scrapper_analysis_project.models import Product
-from datetime import datetime, timedelta
-import pytesseract
-from PIL import Image
-import io
-import base64
-# Twilio configuration
-TWILIO_ACCOUNT_SID = 'AC7ed175308d84751dcc6de9724e1c735f'
-TWILIO_AUTH_TOKEN = 'your_auth_token_here'
-TWILIO_WHATSAPP_NUMBER = 'whatsapp:+14155238886'  # Twilio sandbox or your WhatsApp-enabled number
-CUSTOMER_NUMBER = 'whatsapp:+919820026487'  # Replace with actual customer number
-STATUS_CALLBACK_URL = 'https://2c18-202-134-154-46.ngrok-free.app/status_callback'
+from ..models import Product, Product_name
+from sklearn.preprocessing import MinMaxScaler
 
 
 
+# Define your blueprints
+product_name_blueprint = Blueprint('product_name', __name__, template_folder='templates/Scrapper')
+analyze_data_blueprint = Blueprint('analyze_data', __name__, template_folder='templates/Scrapper')
+analyze_data1_blueprint = Blueprint('analyze_data1', __name__, template_folder='templates/Scrapper')
+analyze_data2_blueprint = Blueprint('analyze_data2', __name__, template_folder='templates/Scrapper')
+analyze_data3_blueprint = Blueprint('analyze_data3', __name__, template_folder='templates/Scrapper')
+analyze_data4_blueprint = Blueprint('analyze_data4', __name__, template_folder='templates/Scrapper')
+display_data_blueprint = Blueprint('display_data', __name__, template_folder='templates/Scrapper')
+display_data1_blueprint = Blueprint('display_data1', __name__, template_folder='templates/Scrapper')
+ML_algo_blueprint = Blueprint('ML_algo', __name__, template_folder='templates/Scrapper')
+add_data_blueprint = Blueprint('add_data', __name__, template_folder='templates/Scrapper')
+product_added_blueprint = Blueprint('product_added', __name__, template_folder='templates/Scrapper')
+add_product_blueprint = Blueprint('add_product', __name__, template_folder='templates/Scrapper')
+Blueprint_make_prediction = Blueprint('make_prediction', __name__, template_folder='templates/Scrapper')
+predict_price_blueprint=Blueprint('predict_price',__name__,template_folder='templates/Scrapper')
+input_tender_details_blueprint=Blueprint('input_tender_details',__name__,template_folder='templates/Scrapper')
+generate_chart_data_blueprint=Blueprint('generate_chart',__name__,template_folder='templates/Scrapper')
 
-product_name_blueprint=Blueprint('product_name',__name__,template_folder='/templates/scraper.html')
-analyze_data_blueprint=Blueprint('analyze_data',__name__,template_folder='templates/Scrapper')
-analyze_data1_blueprint=Blueprint('analyze_data1',__name__,template_folder='templates/Scrapper')
-analyze_data2_blueprint=Blueprint('analyze_data2',__name__,template_folder='templates/Scrapper')
-analyze_data3_blueprint=Blueprint('analyze_data3',__name__,template_folder='templates/Scrapper')
-analyze_data4_blueprint=Blueprint('analyze_data4',__name__,template_folder='templates/Scrapper')
-display_data_blueprint=Blueprint('display_data',__name__,template_folder='templates/Scrapper')
-display_data1_blueprint=Blueprint('display_data1',__name__,template_folder='templates/Scrapper')
-ML_algo_blueprint=Blueprint('ML_algo',__name__,template_folder='templates/Scrapper')
-
-
-import os
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import Select
-import time
-import pandas as pd
-from selenium.common.exceptions import NoSuchElementException
-import os
-import base64
-import time
-import io
-from PIL import Image
-import pytesseract
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoSuchElementException
-import pandas as pd
-import openpyxl
-
+# Your route definitions and other code follows...
 
 
 
@@ -451,7 +407,7 @@ from PIL import Image
 #         return f'Error accessing or processing Google Sheets file: {e}'
 
 # Define authentication credentials and file ID for Google Sheets
-credentials_file = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\gemportal-cafdf2c8cc08.json'
+credentials_file = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\gemportal-e145c7d93c95.json'
 
 file_id = '1nlO1cw0j0JCjRo2yg08B8jqh7RIv9scGCVUYiXePN6c'
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
@@ -665,7 +621,7 @@ def analyze_data4():
 @display_data_blueprint.route('/display_data', methods=['POST', 'GET'])
 def display_data():
     # Path to your service account key file
-    credentials_file1 = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\tenderdetails-607934767a43.json'
+    credentials_file1 = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\tenderdetails-60fbf3d4d0fd.json'
     SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
     
     # Create a credential object
@@ -743,7 +699,7 @@ def display_data():
 @display_data1_blueprint.route('/display_data1', methods=['POST', 'GET'])
 def display_data1():
     # Path to your service account key file
-    credentials_file1 = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\tenderdetails-607934767a43.json'
+    credentials_file1 = 'C:\\Users\\Wishes Lawrence\\Desktop\\lace-data1\\Desktop\\Scrapper_app\\tenderdetails-60fbf3d4d0fd.json'
     SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
     
     # Create a credential object
@@ -776,159 +732,306 @@ def display_data1():
     # Render the template with the DataFrame
     return render_template('tender.html', df2=df2.to_html())
 
-@ML_algo_blueprint.route('/ML_algo', methods=['POST', 'GET'])
-def ML_algo():
-    credentials = service_account.Credentials.from_service_account_file(credentials_file, scopes=SCOPES)
+# @ML_algo_blueprint.route('/ML_algo', methods=['POST', 'GET'])
+# def ML_algo():
+#     credentials = service_account.Credentials.from_service_account_file(credentials_file, scopes=SCOPES)
 
-        # Build the Sheets API service
-    sheets_service = build('sheets', 'v4', credentials=credentials)
+#         # Build the Sheets API service
+#     sheets_service = build('sheets', 'v4', credentials=credentials)
 
-    # Specify the range of data you want to retrieve from the spreadsheet
-    # range_name =  'Sheet1!A1:O615'  # Adjust based on your actual data range
+#     # Specify the range of data you want to retrieve from the spreadsheet
+#     # range_name =  'Sheet1!A1:O615'  # Adjust based on your actual data range
 
-    # Retrieve data from Google Sheets
-    sheet = sheets_service.spreadsheets()
-    result = sheets_service.spreadsheets().values().get(spreadsheetId=file_id, range='Sheet1').execute()
-    values = result.get('values', [])
+#     # Retrieve data from Google Sheets
+#     sheet = sheets_service.spreadsheets()
+#     result = sheets_service.spreadsheets().values().get(spreadsheetId=file_id, range='Sheet1').execute()
+#     values = result.get('values', [])
     
-        # Matplotlib plot generation
-    # file_name = 'Amit_Rapid_Test_ Kits.xlsx'  # Adjusted file name with space
-    # file_path = os.path.join('C:\\Users\\Wishes Lawrence', file_name)
-    import re
-    df = pd.DataFrame(values[1:], columns=values[0])
-    df1=df.copy()
-    pattern=r"\bNon-Vaccum\b|\b'Vaccum'\b'"
-    pattern = r'\bNon-Vacuum\b|\bVacuum\b'
+#         # Matplotlib plot generation
+#     # file_name = 'Amit_Rapid_Test_ Kits.xlsx'  # Adjusted file name with space
+#     # file_path = os.path.join('C:\\Users\\Wishes Lawrence', file_name)
+#     import re
+#     df = pd.DataFrame(values[1:], columns=values[0])
+#     df1=df.copy()
+#     pattern=r"\bNon-Vaccum\b|\b'Vaccum'\b'"
+#     pattern = r'\bNon-Vacuum\b|\bVacuum\b'
 
-# Apply lambda function to extract the matched pattern
-    df1['variant'] = df1['products'].apply(lambda x: re.search(pattern, x).group(0) if re.search(pattern, x) else None)
-    pattern1 = r'(?<=Tubes\s)(\w+\s\w+)|(?<=Tubes\s)(\s\d\.\d+\s\S\s\w+\s\w+)'
+# # Apply lambda function to extract the matched pattern
+#     df1['variant'] = df1['products'].apply(lambda x: re.search(pattern, x).group(0) if re.search(pattern, x) else None)
+#     pattern1 = r'(?<=Tubes\s)(\w+\s\w+)|(?<=Tubes\s)(\s\d\.\d+\s\S\s\w+\s\w+)'
 
-    df1['products_variant'] = df1['products'].apply(lambda x: re.search(pattern1, x).group() if re.search(pattern1, x) else '')
-    df1['products_variant']
+#     df1['products_variant'] = df1['products'].apply(lambda x: re.search(pattern1, x).group() if re.search(pattern1, x) else '')
+#     df1['products_variant']
 
-    # Updated regex pattern
-    pattern1 = r'(?<=Tubes\s)(\w+\s\w+)|Tubes\s(\d\.\d+\s\S+\s\w+\s\w+)'
+#     # Updated regex pattern
+#     pattern1 = r'(?<=Tubes\s)(\w+\s\w+)|Tubes\s(\d\.\d+\s\S+\s\w+\s\w+)'
    
-# Apply the regex pattern to extract the desired part
-    df1['products_variant'] = df1['products'].apply(
-    lambda x: re.search(pattern1, x).group(1) if re.search(pattern1, x) and re.search(pattern1, x).group(1) else 
-              (re.search(pattern1, x).group(2) if re.search(pattern1, x) and re.search(pattern1, x).group(2) else '')
+# # Apply the regex pattern to extract the desired part
+#     df1['products_variant'] = df1['products'].apply(
+#     lambda x: re.search(pattern1, x).group(1) if re.search(pattern1, x) and re.search(pattern1, x).group(1) else 
+#            (re.search(pattern1, x).group(2) if re.search(pattern1, x) and re.search(pattern1, x).group(2) else ''))
+
   
    
-    pattern2 = r'(\d)\s+milliliter'       # Captures a single digit before "milliliter"
-    pattern3 = r'(\d\.\d)\s+milliliter'   # Captures a decimal number before "milliliter"
+#     pattern2 = r'(\d)\s+milliliter'       # Captures a single digit before "milliliter"
+#     pattern3 = r'(\d\.\d)\s+milliliter'   # Captures a decimal number before "milliliter"
 
-# Apply the patterns to the 'products' column and create a new 'size' column
-    df1['size'] = df1['products'].apply(
-        lambda x: (match := re.search(pattern3, x)) and match.group(1) or (
-        (match := re.search(pattern2, x)) and match.group(1) or '')))
+# # Apply the patterns to the 'products' column and create a new 'size' column
+#     df1['size'] = df1['products'].apply(
+#         lambda x: (match := re.search(pattern3, x)) and match.group(1) or (
+#         (match := re.search(pattern2, x)) and match.group(1) or ''))
     
-    df1['MinUnitPrice']=df1['Total']/df1['Quantities']
-    df3=df1.copy()
-    df3.drop(['Ministry','contract_number','office_zone','Buyer_Designation','Prices','Date','Year','contract_date','Organization_name','Department','Date1','products','Month','Week'],axis=1,inplace=True)
-    # Remove Outliers
-    num_cols=df3.select_dtypes(include=['int64','float64'])
+#     df1['MinUnitPrice']=df1['Total']/df1['Quantities']
+#     df3=df1.copy()
+#     df3.drop(['Ministry','contract_number','office_zone','Buyer_Designation','Prices','Date','Year','contract_date','Organization_name','Department','Date1','products','Month','Week'],axis=1,inplace=True)
+#     # Remove Outliers
+#     num_cols=df3.select_dtypes(include=['int64','float64'])
     
-    cat_cols=df3.select_dtypes(include=['object'])
+#     cat_cols=df3.select_dtypes(include=['object'])
     
     
-    # Removing Outliers
-def remove_outliers(df,columns):
-    for col in columns:
-# Calculate Q1 (25th percentile) and Q3 (75th percentile)
-        Q1 = df[col].quantile(0.25)
-        Q3 = df[col].quantile(0.75)
-        IQR = Q3 - Q1
+#     # Removing Outliers
+# def remove_outliers(df,columns):
+#     for col in columns:
+# # Calculate Q1 (25th percentile) and Q3 (75th percentile)
+#         Q1 = df[col].quantile(0.25)
+#         Q3 = df[col].quantile(0.75)
+#         IQR = Q3 - Q1
 
-        # Define the outlier thresholds
-        lower_bound = Q1 - 1.5 * IQR
-        upper_bound = Q3 + 1.5 * IQR
+#         # Define the outlier thresholds
+#         lower_bound = Q1 - 1.5 * IQR
+#         upper_bound = Q3 + 1.5 * IQR
 
-        # Filter out outliers
-        df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
-    return df
+#         # Filter out outliers
+#         df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+#     return df
 
-df_no_outliers=remove_outliers(num_cols,num_cols.columns) # type: ignore
+# df_no_outliers=remove_outliers(df3,num_cols.columns) # type: ignore
     
 
-#Log Transformation
-def log_transform(df,columns):
-    df_transformed=df_no_outliers.copy()
-    for col in columns:
-        df_transformed[col]=np.log(df_transformed[col])
-    return df_transformed
+# #Log Transformation
+# def log_transform(df,columns):
+#     df_transformed=df_no_outliers.copy()
+#     for col in columns:
+#         df_transformed[col]=np.log(df_transformed[col])
+#     return df_transformed
 
-log_transform=log_transform(df_no_outliers,df_no_outliers.columns)
-log_transform
+# log_transform=log_transform(df_no_outliers,df_no_outliers.columns)
+# log_transform
 
-# Scaling the data
-from sklearn.preprocessing import MinMaxScaler
-import sys
-def scaling_data(df):    
-    df_scaled=log_transform.copy()
-    df_scaled = np.where(np.isinf(df_scaled),  # Replace infinity with a specific value
-                       -sys.maxsize, df_scaled)  # or another appropriate value
-    scaler=MinMaxScaler()
-    df_scaled= scaler.fit_transform(df_scaled)
-    return df_scaled
+# # Scaling the data
+# from sklearn.preprocessing import MinMaxScaler
+# import sys
+# def scaling_data(df):    
+#     df_scaled=log_transform.copy()
+#     df_scaled = np.where(np.isinf(df_scaled),  # Replace infinity with a specific value
+#                        -sys.maxsize, df_scaled)  # or another appropriate value
+#     scaler=MinMaxScaler()
+#     df_scaled= scaler.fit_transform(df_scaled)
+#     return df_scaled
 
-df_num=scaling_data(log_transform)
-df_num=pd.DataFrame(df_no_outliers,columns=df_no_outliers.columns)
+# df_num=scaling_data(log_transform)
+# df_num=pd.DataFrame(df_no_outliers,columns=df_no_outliers.columns)
 
-indices_to_keep = df_num.index
-cat_cols=df3.select_dtypes(include=['object']).columns
-cat_cols_cleaned = df3.loc[indices_to_keep, cat_cols]
+# indices_to_keep = df_num.index
+# cat_cols=df3.select_dtypes(include=['object']).columns
+# cat_cols_cleaned = df3.loc[indices_to_keep, cat_cols]
 
-df_cat_cols=pd.get_dummies(cat_cols_cleaned)
-df_concat=pd.concat([df_num,df_cat_cols],axis=1)
-y=df_concat['MinUnitPrice']
+# df_cat_cols=pd.get_dummies(cat_cols_cleaned)
+# df_concat=pd.concat([df_num,df_cat_cols],axis=1)
+# y=df_concat['MinUnitPrice']
 
-X=df_concat.drop('MinUnitPrice',axis=1)
-import numpy as np
-import pandas as pd
-from sklearn.linear_model import LinearRegression
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.pipeline import make_pipeline
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
-
-
-
-# Split Data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# X=df_concat.drop('MinUnitPrice',axis=1)
+# import numpy as np
+# import pandas as pd
+# from sklearn.linear_model import LinearRegression
+# from sklearn.preprocessing import PolynomialFeatures
+# from sklearn.pipeline import make_pipeline
+# from sklearn.model_selection import train_test_split
+# from sklearn.metrics import mean_squared_error, r2_score
 
 
-import statsmodels.api as sm
-import pandas as pd
 
-# Assuming your data is already split into X_train and y_train
+# # Split Data
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# 1. Add a constant to the model for the intercept
-X_train_const = sm.add_constant(X_train)
 
-# 2. Fit the OLS model
-ols_model = sm.OLS(y_train, X_train_const).fit()
+# import statsmodels.api as sm
+# import pandas as pd
 
-# 3. Print the model summary
-print(ols_model.summary())
+# # Assuming your data is already split into X_train and y_train
 
-import xgboost as xgb
-from sklearn.metrics import mean_squared_error, r2_score
+# # 1. Add a constant to the model for the intercept
+# X_train_const = sm.add_constant(X_train)
 
-# Create the XGBoost model
-xgb_model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100, learning_rate=0.1)
+# # 2. Fit the OLS model
+# ols_model = sm.OLS(y_train, X_train_const).fit()
 
-# Fit the model on PCA-transformed training data
-xgb_model.fit(X_train, y_train)
+# # 3. Print the model summary
+# print(ols_model.summary())
 
-# Make predictions on the PCA-transformed test data
-y_pred = xgb_model.predict(X_test)
+# import xgboost as xgb
+# from sklearn.metrics import mean_squared_error, r2_score
 
-# Evaluate the model
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
+# # Create the XGBoost model
+# xgb_model = xgb.XGBRegressor(objective='reg:squarederror', n_estimators=100, learning_rate=0.1)
 
-print("Mean Squared Error:", mse)
-print("R2 Score:", r2)
+# # Fit the model on PCA-transformed training data
+# xgb_model.fit(X_train, y_train)
 
+# # Make predictions on the PCA-transformed test data
+# y_pred = xgb_model.predict(X_test)
+
+# # Evaluate the model
+# mse = mean_squared_error(y_test, y_pred)
+# r2 = r2_score(y_test, y_pred)
+
+# print("Mean Squared Error:", mse)
+# print("R2 Score:", r2)
+
+
+# Route to display the form
+@add_data_blueprint.route('/add_data', methods=['GET', 'POST'])
+def add_data():
+    if request.method == 'POST':
+        # Retrieve data from the form
+        product_name = request.form['name']
+        category = request.form.get('category')  # Use empty string if description is not provided
+        gem_id = request.form['gem_id']
+        
+        # Create a new Product object
+        new_product = Product_name(product_name=product_name, category=category, gem_id=gem_id)
+        
+        # Add the new product to the database
+        db.session.add(new_product)
+        db.session.commit()
+
+        # Redirect back to the form or another route
+        return redirect(url_for('product_added.product_added'))
+    
+  
+
+
+@product_added_blueprint.route('/product_added')
+def product_added():
+    return "Product added successfully!"
+
+
+@add_product_blueprint.route('/add_product')
+def add_product():
+    return render_template('add_product.html')
+
+@input_tender_details_blueprint.route('/input_tender_details')
+def input_tender_details():
+    return render_template('tender_input.html')
+
+def generate_chart_data(input_data, model, scaler, features_list):
+    """
+    Generate price trend data for different quantities.
+    """
+    quantities = [500, 1000, 2000, 5000, 10000, 15000, 20000]
+    chart_data = []
+
+    for qty in quantities:
+        try:
+            test_data = input_data.copy()
+            test_data.loc[0, 'Quantities'] = qty  # Update quantity
+            
+            # Apply preprocessing
+            test_data['Quantities'] = np.sqrt(test_data['Quantities'])
+            test_data['size'] = np.sqrt(test_data['size'])
+            
+            cat_cols = ['organization_type', 'buying_mode', 'variant', 'products_variant']
+            test_data_encoded = pd.get_dummies(test_data[cat_cols], prefix=cat_cols)
+            
+            final_input = pd.DataFrame()
+            final_input['Quantities'] = test_data['Quantities']
+            final_input['size'] = test_data['size']
+
+            # Ensure all features match the training feature set
+            for feature in features_list:
+                final_input[feature] = test_data_encoded.get(feature, 0)
+
+            # Model prediction
+            prediction_scaled = model.predict(final_input)
+            prediction = scaler.inverse_transform(prediction_scaled.reshape(-1, 1))
+            total_price = float(prediction[0][0])
+            price_per_unit = total_price / qty
+
+            chart_data.append({
+                'quantity': qty,
+                'pricePerUnit': price_per_unit,
+                'totalPrice': total_price
+            })
+        except Exception as e:
+            print(f"Error generating chart data for qty={qty}: {str(e)}")
+
+    return chart_data
+
+# # Load the saved models and scalers
+# Load trained XGBoost model and related files
+linear_model = joblib.load("C:\\Users\\Wishes Lawrence\\linear_model.pkl")
+target_scaler = joblib.load("C:\\Users\\Wishes Lawrence\\target_scaler.pkl")
+features_list = joblib.load("C:\\Users\\Wishes Lawrence\\features_scaler.pkl")  # A list of model's feature names
+
+@predict_price_blueprint.route('/predict_price', methods=['GET', 'POST'])
+def predict_price():
+    if request.method == 'POST':
+        try:
+            # Gather input data
+            input_data = pd.DataFrame([{
+                'Quantities': float(request.form['Quantities']),
+                'organization_type': request.form['organization_type'],
+                'buying_mode': request.form['buying_mode'],
+                'variant': request.form['variant'],
+                'products_variant': request.form['products_variant'],
+                'size': float(request.form['size'])
+            }])
+            
+            # Preprocessing
+            input_data['Quantities'] = np.sqrt(input_data['Quantities'])
+            input_data['size'] = np.sqrt(input_data['size'])
+
+            cat_cols = ['organization_type', 'buying_mode', 'variant', 'products_variant']
+            input_data_encoded = pd.get_dummies(input_data[cat_cols], prefix=cat_cols)
+
+            final_input = pd.DataFrame(columns=features_list)
+            for feature in features_list:
+                final_input[feature] = input_data_encoded.get(feature, 0)
+
+                    # Check and handle NaN values
+            if final_input.isnull().values.any():
+                print("Missing values detected in final input.")
+                print(final_input.isnull().sum())  # Debugging: Print columns with missing values
+                final_input.fillna(0, inplace=True)  # Replace NaN values with 0
+
+            # Debugging: Print the processed final input
+            print(f"Final input for prediction:\n{final_input}")
+
+
+            # Prediction
+            final_input_array = final_input.values
+            prediction_scaled = linear_model.predict(final_input_array)
+            prediction = target_scaler.inverse_transform(prediction_scaled.reshape(-1, 1))
+            total_price = float(prediction[0][0])
+
+            # Calculate additional metrics
+            quantities = float(request.form['Quantities'])
+            price_per_unit = total_price / quantities if quantities > 0 else 0
+            min_unit_price = price_per_unit * 0.8
+
+            # Generate chart data
+            chart_data = generate_chart_data(input_data, linear_model, target_scaler, features_list)
+
+            return render_template(
+                'prediction_form.html',
+                total_price=total_price,
+                price_per_unit=price_per_unit,
+                min_unit_price=min_unit_price,
+                chart_data=chart_data
+            )
+        except Exception as e:
+            print(f"Error in predict_price: {str(e)}")
+            return render_template('error.html', error_message=f"Prediction error: {str(e)}")
+
+    return render_template('prediction_form.html')

@@ -3,6 +3,7 @@ from flask import render_template
 from scrapper_analysis_project import db
 
 
+
 @app.route('/')
 def index():
     return render_template('home.html')

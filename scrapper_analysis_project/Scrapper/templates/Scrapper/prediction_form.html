@@ -1,0 +1,47 @@
+<!-- prediction_result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Prediction Results</h1>
+    <p>Total Price: {{ total_price }}</p>
+    <p>Price Per Unit: {{ price_per_unit }}</p>
+    <p>Minimum Unit Price: {{ min_unit_price }}</p>
+
+    <canvas id="priceTrendChart" width="400" height="200"></canvas>
+    <script>
+        const chartData = {{ chart_data | tojson }};
+        const labels = chartData.map(data => data.quantity);
+        const prices = chartData.map(data => data.pricePerUnit);
+
+        const ctx = document.getElementById('priceTrendChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Price Per Unit',
+                    data: prices,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <a href="{{ url_for('predict_price.predict_price') }}">Back to Prediction Form</a>
+</body>
+</html>

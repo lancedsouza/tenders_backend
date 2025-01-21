@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "tenderdetails",
+  "private_key_id": "60fbf3d4d0fd5daf110fe7bd80a273139c2cc11e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCbNl7PG5s+/Q4o\nQOEJIJvFksoBpTaHyZ93CEcXdNp12CPR9DchDQWFPmh4rBr8O8S0RRAMp1rxJcHE\nKPmES1i9LIp8sr6Bj3u3Y9EhwQB4r9JATlkA+BFCudUSU103mgKdpm+GFQLQDQAw\nr8UTeR8T8sOWIfwlHAYFxLOYb+ssThdU5yy9JQ8d2JJ7oAszfOqqGN6Bufb+1Qx8\nHwV7fiP/UZlHSImQGWNdnTUbxUvWxd9HXKnsfEIoBIkh3tfR5xg5pUXDiGk5fuir\nTSQRTDfACbCmZKh2ji9lTdzNS/TPCa/Aufo5us6Ag9b8/ag1cngtEo9RwcljDtgF\nSFsUHcmvAgMBAAECggEAKa+ZGBPIhsrNPhdquRpWa+JoObfnJOIMX5pMCas7LzJN\nMIrgMZK/PFGOGnbSypK82lPAIz3haWnkGCyPEy5vV2N6kFIrYz2nkxIObXvaBg/m\nrpm8QsvdSugBJ2pXW2MUN8YnJsJG3pzXQ7w5eGjr5V4qlIxtHYRgw7TYLWVFqsCl\nX2JHZp/nnuqbN2nkhBKY9YaskAtyXJufxvhGpwyDdTYF+fvk4ABAcIt5TTaqRCJ6\nrxd0dF01d4/2h2YbndIrI2RTAEBsUiRnINb60xCOdg9f8+Re/NvnxdAydr1AYrA/\ntSjhbagxrPT8YU3A5ntLiLI8ZlR03FbECl5hANdB4QKBgQDLpi7OYDIWjph+Cy2k\nVK5E1CQsOASZD+zdbbL85SXBSmU75fWl0bOW1I9z109fNTfqWxrF7NqZf69z0S4q\nDXzY/d8jTwPPHsE0Ae5YJ/QYkUzgkLrsvcWDQfaWRE1madjZFB6JZS25TwfvLzx7\nENmMOoA7v+Tx1C8ZDFb9o+fCYQKBgQDDHKSmWAOgtTUY1q00gvG+FiFYjAPxgzjI\nQac6Ckg0fT21NI7+4oB3dkGv8ybVTDwNuh07M3b1nyB7l5V89xU6uVH2190D5A8O\nCh/GKJskI/SVGpxRaFOraFxl+S9wAYoEl3dEm6jdWxmU6XsvxaSBg1r2ZgknzS/V\n4KtyDw8mDwKBgEcMIyg8xzy3YtwWakX6hRHeMQB8Sp5bv/dAXkF8cD+PBOJwx9Kh\n5lWosqNnanl8x5UrU5vZlioXMc7mG4TwT64kY8SdvGZ2BFFwmwaGadJoXrm5xHzz\neATi7nReP+KK6uxQ6JZmhh0wRURc5mzI5BzYDATMXcNAk23ZsD+s/x4BAoGAaoJ4\nX1YspM5G7ghDBSd2UA5EpdHJVU4M8UTlxQlX4U99IC5Q4VNETfKAaUyTJl03a0bu\nLiMqDWuQj+dv84fuTuBbniS4wib9EOz163a/OjtmiP691rLc+fU+e2xMORid/2Ov\n+AQBatUQYfoTBUEfTJQoU9nfpZqdQmQjM2CFJIECgYBLWKNBsMbKjKacCp89hcX6\n/o+precM0WS6pGb59VAxvsLjMtXfHbOpTIgzXM6T9uqTRDbuhxaaSoY9maasNRrv\nQA7ktIPeFtvYLwrOqi0h1KWgO9PyA6p1KqBNpbKPfRLcHGFOIwtfddTzXXXj5kF7\nmSyFLuwyT23TCZblXmuOsQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "tendersdetails@tenderdetails.iam.gserviceaccount.com",
+  "client_id": "105190427438287711543",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tendersdetails%40tenderdetails.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
